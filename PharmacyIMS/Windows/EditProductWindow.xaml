@@ -1,0 +1,46 @@
+﻿<Window x:Class="PharmacyIMS.Windows.EditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PharmacyIMS.Windows"
+        mc:Ignorable="d"
+        Title="Edit Product" Height="300" Width="300">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition 
+                Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" Text="Product Name:"/>
+        <TextBlock VerticalAlignment="Center" Text="Generic Name:" Grid.Row="1"/>
+        <TextBlock VerticalAlignment="Center" Text="Type:" Grid.Row="2"/>
+        <TextBlock VerticalAlignment="Center" Text="Form:" Grid.Row="3"/>
+        <TextBlock VerticalAlignment="Center" Text="Buying Price:" Grid.Row="4"/>
+        <TextBlock VerticalAlignment="Center" Text="Selling Price:" Grid.Row="5"/>
+        <TextBlock VerticalAlignment="Center" Text="Quantity:" Grid.Row="6"/>
+
+        <TextBox x:Name="ProductNameTbx" Text="{Binding Path=ProductName}" Grid.Column="1" Margin="5" />
+        <TextBox x:Name="GenericNameTbx" Text="{Binding Path=GenericName}" Grid.Column="1" Margin="5" Grid.Row="1"/>
+        <TextBox x:Name="TypeTbx" Text="{Binding Path=Type}" Grid.Column="1" Margin="5" Grid.Row="2"/>
+        <TextBox x:Name="FormTbx" Text="{Binding Path=Form}" Grid.Column="1" Margin="5" Grid.Row="3"/>
+        <TextBox x:Name="BuyingPriceTbx" Text="{Binding Path=BuyingPrice}" Grid.Column="1" Margin="5" Grid.Row="4"/>
+        <TextBox x:Name="SellingPriceTbx" Text="{Binding Path=SellingPrice}" Grid.Column="1" Margin="5" Grid.Row="5"/>
+        <TextBox x:Name="QuantityTbx" Text="{Binding Path=Quantity}" Grid.Column="1" Margin="5" Grid.Row="6"/>
+
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="EditProductBtn" Click="EditProductBtn_Click"  Content="Save" Margin="5" Width="100"/>
+            <Button x:Name="CancelProductBtn" Click="CancelProductBtn_Click"  Content="Cancel" Margin="5" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>
