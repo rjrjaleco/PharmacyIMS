@@ -14,7 +14,27 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="#0066FF">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="PRODUCT" Name="ProductTabButton" Foreground="White" Background="Transparent" Padding="5" FontSize="25" FontWeight="Light">
+                <TextBlock Text="PRODUCT" Name="ProductTabButton" Foreground="White" Background="Transparent" Padding="5" FontSize="25" FontWeight="Light" MouseUp="ProductTabButton_MouseUp" MouseLeave="ProductTabButton_MouseLeave">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property= "Foreground" Value="Blue"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand" />
+                                </Trigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Background.Color" To="White" />
+                                            <ColorAnimation Duration="0:0:0.3" Storyboard.TargetProperty="Foreground.Color" To="Black" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="SUPPLIER" Name="SupplierTabButton" Foreground="White" Background="Transparent" Padding="5" FontSize="25" FontWeight="Light">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property= "Foreground" Value="Blue"/>
@@ -76,7 +96,7 @@
                 </TextBlock>
             </StackPanel>
         </DockPanel>
-        <Grid x:Name="ProductGrid" Visibility="Visible" Grid.Row="1" Background="#F5F5F5">
+        <Grid x:Name="ProductGrid" Visibility="Hidden" Grid.Row="1" Background="#F5F5F5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
@@ -149,7 +169,7 @@
                     <Grid Grid.Column="2"  x:Name="helperField3"/>
                     <Grid Grid.Column="3"  x:Name="helperField4"/>
                 </Grid>
-                <ListView x:Name="ProductListView" Margin="5" Grid.Row="2" Grid.RowSpan="3" ItemsSource="{Binding Path=ProductList}" SelectedItem="{Binding Path=SelectedProduct}">
+                <ListView x:Name="ProductListView" Margin="5" Grid.Row="2" Grid.RowSpan="3" ItemsSource="{Binding Path=ProductList}" SelectedItem="{Binding Path=SelectedProduct}" TextElement.FontSize="16" TextElement.Foreground="Black">
                     <ListView.View>
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>
@@ -204,6 +224,196 @@
 
             </DockPanel>
             <Button Click="EditProductButton_Click" x:Name="EditProductButton" Content="Edit" DockPanel.Dock="Bottom" FontSize="20" FontWeight="Medium" BorderThickness="1" Grid.Column="3" Grid.Row="4" Margin="10,10,10,5" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Grid x:Name="SupplierGrid" Visibility="Visible" Grid.Row="1" Background="#F5F5F5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--SUPPLIER LEFTSIDE-->
+            <Grid Grid.RowSpan="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="SUPPLIER LIST" FontSize="20" Padding="5,5,0,0" FontWeight="Medium"/>
+                <!-- BUTTONS ADD DELETE CLEAR -->
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,7,5,0">
+                    <Button Click="AddSupplierButton_Click" Margin="5,0,0,0" x:Name="AddSupplierButton" Background="Transparent" BorderThickness="0" ToolTip="Add New Product">
+                        <Button.Content>
+                            <Path Height="20"
+                              Data="F1 M 2.88,17.2725C 0.959991,15.3475 0,12.95 0,10.08C 0,7.21002 0.959991,4.8125 2.88,2.88751C 4.80002,0.962494 7.19125,0 10.0537,0C 12.9163,0 15.3163,0.962494 17.2538,2.88751C 19.1913,4.8125 20.16,7.21002 20.16,10.08C 20.16,12.95 19.1913,15.3475 17.2538,17.2725C 15.3163,19.1975 12.9163,20.16 10.0537,20.16C 7.19125,20.16 4.80002,19.1975 2.88,17.2725 Z M 3.84,11.3625L 8.81998,11.3625L 8.81998,16.32L 11.34,16.32L 11.34,11.3625L 16.32,11.3625L 16.32,8.85001L 11.34,8.85001L 11.34,3.84L 8.81998,3.84L 8.81998,8.85001L 3.84,8.85001L 3.84,11.3625 Z "
+                              Fill="Black"
+                              Stretch="Uniform"
+                              UseLayoutRounding="False" />
+                        </Button.Content>
+                    </Button>
+                    <Button ToolTip="Remove Supplier" Margin="5,0" x:Name="RemoveSupplierButton" Background="Transparent" BorderThickness="0">
+                        <Button.Content>
+                            <Path Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 2.90253,17.13C 0.967529,15.105 0,12.7063 0,9.93381C 0,7.16129 0.96875,4.81253 2.90625,2.88751C 4.84375,0.962524 7.24377,3.05176e-005 10.1063,3.05176e-005C 12.9688,3.05176e-005 15.36,0.962524 17.28,2.88751C 19.2001,4.81253 20.16,7.16129 20.16,9.93381C 20.16,12.7063 19.2001,15.1038 17.28,17.1263C 15.36,19.1488 12.9688,20.16 10.1063,20.16C 7.24377,20.16 4.84253,19.1501 2.90253,17.13 Z M 3.84003,11.04L 16.32,11.04L 16.32,8.64005L 3.84003,8.64005L 3.84003,11.04 Z "/>
+                        </Button.Content>
+                    </Button>
+                    <Button ToolTip="Clear Supplier List" x:Name="ClearSupplierButton" Background="Transparent" BorderThickness="0">
+                        <Button.Content>
+                            <Path Width="23.3774" Height="20" Stretch="Uniform" Fill="Black" Data="F1 M 4.70432,0L 0.0480347,4.77802L 7.00842,11.6812L 0,18.7292L 4.70432,23.46L 11.6647,16.412L 18.6252,23.46L 23.3774,18.7774L 16.369,11.6812L 23.3294,4.77802L 18.6252,0L 11.6647,6.9986L 4.70432,0 Z "/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <!-- SEARCHBAR -->
+                <TextBlock x:Name="TblSearchSupplier"
+                           Height="23" Padding="5,0"
+                           Margin="5,4,5,4" Grid.Row="1"
+                           VerticalAlignment="Center"
+                           Background="White" FontSize="16"
+                           Foreground="Gray"
+                           Text="Search" />
+                <Path Grid.Row="1" HorizontalAlignment="Right" Height="16"  Margin="0,0,10,0" Stretch="Uniform" Fill="Black" Data="F1 M 477.366,32.4489C 470.432,35.802 462.011,33.0596 458.558,26.3193C 455.103,19.5833 457.927,11.3994 464.867,8.04321C 471.8,4.69006 480.222,7.4342 483.675,14.1729C 487.123,20.9102 484.303,29.0901 477.366,32.4489 Z M 489.398,50.2073L 481.138,34.0914C 488.075,29.3633 490.6,20.2981 486.712,12.7021C 482.423,4.33691 471.967,0.928711 463.351,5.09277C 454.739,9.26074 451.234,19.4209 455.52,27.7913C 459.414,35.3821 468.384,38.8887 476.447,36.3619L 484.703,52.4756C 485.051,53.1487 485.924,53.4045 486.66,53.0488L 488.688,52.0686C 489.427,51.7129 489.742,50.8782 489.398,50.2073 Z " UseLayoutRounding="False"/>
+                <TextBox x:Name="TbxSearchSupplier" Padding="5,0,0,0"
+                         Margin="5,4" Grid.Row="1" FontSize="16"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         Text="{Binding Path=SupplierSearchText,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Delay=100}" />
+                <!-- SUPPLIER LIST -->
+                <Grid Visibility="Visible" Margin="5" Grid.Row="2" Grid.RowSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0"  x:Name="helperField5"/>
+                    <Grid Grid.Column="1"  x:Name="helperField6"/>
+                </Grid>
+                <ListView x:Name="SupplierListView" Margin="5" Grid.Row="2" Grid.RowSpan="3" ItemsSource="{Binding Path=SupplierList}" SelectedItem="{Binding Path=SelectedSupplier}" TextElement.FontSize="16" TextElement.Foreground="Black">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="ID" Width="{Binding ElementName=helperField5, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=ID}"/>
+                            <GridViewColumn Header="Supplier Name" Width="{Binding ElementName=helperField6, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=SupplierName}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <!-- GRIDSPLITTER -->
+            <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="4" Width="2" Background="Gray"/>
+            <!-- SUPPLER DETAILS -->
+            <TextBlock Text="SUPPLIER DETAILS" FontSize="20" Padding="5,5,0,0" FontWeight="SemiBold" Grid.Column="2"/>
+            <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel LastChildFill="True">
+                    <Button Click="EditSupplierButton_Click" x:Name="EditSupplerButton" Content="Edit" DockPanel.Dock="Bottom" FontSize="20" FontWeight="Medium" BorderThickness="1" Grid.Column="3" Grid.Row="4" Margin="10,10,10,5" VerticalAlignment="Bottom"/>
+                    <Grid DataContext="{Binding Path=SelectedSupplier}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Supplier Name: " FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Supplier Address: " Grid.Row="1" FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Additional Details: " Grid.Row="2" FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
+
+                        <TextBlock Text="{Binding Path=SupplierName}" FontSize="15"  Grid.Column="1" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding Path=SupplierAddress}" FontSize="15" Grid.Row="1"  Grid.Column="1" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding Path=AdditionalDetails}" Grid.Row="2"  Grid.Column="1" FontSize="15" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
+
+                        
+                    </Grid>
+                </DockPanel>
+                <GridSplitter ResizeDirection="Rows" Grid.Row="1" HorizontalAlignment="Stretch" Height="2" Background="Gray"/>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="SupplierProductTbxRow" Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="SUPPLIER PRODUCTS" FontSize="20" Padding="5,5,0,0" FontWeight="Medium"/>
+                    <!-- BUTTONS ADD DELETE CLEAR -->
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,7,5,0">
+                        <Button Margin="5,0,0,0" x:Name="AddSupplierProductButton" Background="Transparent" BorderThickness="0" ToolTip="Add New Product">
+                            <Button.Content>
+                                <Path Height="20"
+                              Data="F1 M 2.88,17.2725C 0.959991,15.3475 0,12.95 0,10.08C 0,7.21002 0.959991,4.8125 2.88,2.88751C 4.80002,0.962494 7.19125,0 10.0537,0C 12.9163,0 15.3163,0.962494 17.2538,2.88751C 19.1913,4.8125 20.16,7.21002 20.16,10.08C 20.16,12.95 19.1913,15.3475 17.2538,17.2725C 15.3163,19.1975 12.9163,20.16 10.0537,20.16C 7.19125,20.16 4.80002,19.1975 2.88,17.2725 Z M 3.84,11.3625L 8.81998,11.3625L 8.81998,16.32L 11.34,16.32L 11.34,11.3625L 16.32,11.3625L 16.32,8.85001L 11.34,8.85001L 11.34,3.84L 8.81998,3.84L 8.81998,8.85001L 3.84,8.85001L 3.84,11.3625 Z "
+                              Fill="Black"
+                              Stretch="Uniform"
+                              UseLayoutRounding="False" />
+                            </Button.Content>
+                        </Button>
+                        <Button ToolTip="Remove Supplier" Margin="5,0" x:Name="RemoveSupplierProductButton" Background="Transparent" BorderThickness="0">
+                            <Button.Content>
+                                <Path Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 2.90253,17.13C 0.967529,15.105 0,12.7063 0,9.93381C 0,7.16129 0.96875,4.81253 2.90625,2.88751C 4.84375,0.962524 7.24377,3.05176e-005 10.1063,3.05176e-005C 12.9688,3.05176e-005 15.36,0.962524 17.28,2.88751C 19.2001,4.81253 20.16,7.16129 20.16,9.93381C 20.16,12.7063 19.2001,15.1038 17.28,17.1263C 15.36,19.1488 12.9688,20.16 10.1063,20.16C 7.24377,20.16 4.84253,19.1501 2.90253,17.13 Z M 3.84003,11.04L 16.32,11.04L 16.32,8.64005L 3.84003,8.64005L 3.84003,11.04 Z "/>
+                            </Button.Content>
+                        </Button>
+                        <Button ToolTip="Clear Supplier List" x:Name="ClearSupplierProductButton" Background="Transparent" BorderThickness="0">
+                            <Button.Content>
+                                <Path Width="23.3774" Height="20" Stretch="Uniform" Fill="Black" Data="F1 M 4.70432,0L 0.0480347,4.77802L 7.00842,11.6812L 0,18.7292L 4.70432,23.46L 11.6647,16.412L 18.6252,23.46L 23.3774,18.7774L 16.369,11.6812L 23.3294,4.77802L 18.6252,0L 11.6647,6.9986L 4.70432,0 Z "/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                    <!-- SEARCHBAR -->
+                    <TextBlock x:Name="TblSearchSupplierProduct"
+                           Height="23" Padding="5,0"
+                           Margin="5,4,5,4" Grid.Row="1"
+                           VerticalAlignment="Center"
+                           Background="White" FontSize="16"
+                           Foreground="Gray"
+                           Text="Search" />
+                    <Path Grid.Row="1" HorizontalAlignment="Right" Height="16"  Margin="0,0,10,0" Stretch="Uniform" Fill="Black" Data="F1 M 477.366,32.4489C 470.432,35.802 462.011,33.0596 458.558,26.3193C 455.103,19.5833 457.927,11.3994 464.867,8.04321C 471.8,4.69006 480.222,7.4342 483.675,14.1729C 487.123,20.9102 484.303,29.0901 477.366,32.4489 Z M 489.398,50.2073L 481.138,34.0914C 488.075,29.3633 490.6,20.2981 486.712,12.7021C 482.423,4.33691 471.967,0.928711 463.351,5.09277C 454.739,9.26074 451.234,19.4209 455.52,27.7913C 459.414,35.3821 468.384,38.8887 476.447,36.3619L 484.703,52.4756C 485.051,53.1487 485.924,53.4045 486.66,53.0488L 488.688,52.0686C 489.427,51.7129 489.742,50.8782 489.398,50.2073 Z " UseLayoutRounding="False"/>
+                    <TextBox x:Name="TbxSearchSupplierProduct" Padding="5,0,0,0"
+                         Margin="5,4" Grid.Row="1" FontSize="16"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         Text="{Binding Path=SupplierProductSearchText,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Delay=100}" />
+                    <!-- SUPPLIER PRODUCT LIST -->
+                    <Grid Visibility="Visible" Margin="5" Grid.Row="2" Grid.RowSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".2*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0"  x:Name="helperField7"/>
+                        <Grid Grid.Column="1"  x:Name="helperField8"/>
+                        <Grid Grid.Column="2"  x:Name="helperField9"/>
+                    </Grid>
+                    <ListView x:Name="SupplierProductsListView" Margin="5" Grid.Row="2" ItemsSource="{Binding Path=SupplierList}" SelectedItem="{Binding Path=SelectedSupplier}" TextElement.FontSize="16" TextElement.Foreground="Black">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn Header="ID" Width="{Binding ElementName=helperField7, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=ID}"/>
+                                <GridViewColumn Header="Product Name" Width="{Binding ElementName=helperField8, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=ProductName}"/>
+                                <GridViewColumn Header="Generic Name" Width="{Binding ElementName=helperField9, Path=ActualWidth}" DisplayMemberBinding="{Binding Path=GenericName}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <!--<TextBlock Text="asdfasdf" Grid.Row="4"/>-->
+            </Grid>
         </Grid>
         <DockPanel Grid.Row="2" Background="#0066FF">
             <Grid Grid.Row="3">
