@@ -21,3 +21,5 @@ C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS
 C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\Windows\EditProductWindow.baml
 C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\Windows\AddSupplierWindow.g.cs
 C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\Windows\AddSupplierWindow.baml
+C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\Windows\EditSupplierWindow.g.cs
+C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\Windows\EditSupplierWindow.baml

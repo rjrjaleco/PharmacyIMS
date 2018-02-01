@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\App.xaml
-4-611289724
+5-1499206683
 2-1193109999
-111146061745
+15368162402
 13738642453
-MainWindow.xaml;Windows\AddProductWindow.xaml;Windows\AddSupplierWindow.xaml;Windows\EditProductWindow.xaml;
+MainWindow.xaml;Windows\AddProductWindow.xaml;Windows\AddSupplierWindow.xaml;Windows\EditProductWindow.xaml;Windows\EditSupplierWindow.xaml;
 
 False
 

@@ -34,7 +34,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBlock Text="SUPPLIER" Name="SupplierTabButton" Foreground="White" Background="Transparent" Padding="5" FontSize="25" FontWeight="Light">
+                <TextBlock Text="SUPPLIER" Name="SupplierTabButton" Foreground="White" Background="Transparent" Padding="5" FontSize="25" FontWeight="Light" MouseUp="SupplierTabButton_MouseUp" MouseLeave="SupplierTabButton_MouseLeave">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property= "Foreground" Value="Blue"/>
@@ -127,7 +127,7 @@
                               UseLayoutRounding="False" />
                         </Button.Content>
                     </Button>
-                    <Button ToolTip="Remove Product" Margin="5,0" x:Name="RemoveProductButton" Background="Transparent" BorderThickness="0">
+                    <Button Click="RemoveProductButton_Click" ToolTip="Remove Product" Margin="5,0" x:Name="RemoveProductButton" Background="Transparent" BorderThickness="0">
                         <Button.Content>
                             <Path Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 2.90253,17.13C 0.967529,15.105 0,12.7063 0,9.93381C 0,7.16129 0.96875,4.81253 2.90625,2.88751C 4.84375,0.962524 7.24377,3.05176e-005 10.1063,3.05176e-005C 12.9688,3.05176e-005 15.36,0.962524 17.28,2.88751C 19.2001,4.81253 20.16,7.16129 20.16,9.93381C 20.16,12.7063 19.2001,15.1038 17.28,17.1263C 15.36,19.1488 12.9688,20.16 10.1063,20.16C 7.24377,20.16 4.84253,19.1501 2.90253,17.13 Z M 3.84003,11.04L 16.32,11.04L 16.32,8.64005L 3.84003,8.64005L 3.84003,11.04 Z "/>
                         </Button.Content>
@@ -256,7 +256,7 @@
                               UseLayoutRounding="False" />
                         </Button.Content>
                     </Button>
-                    <Button ToolTip="Remove Supplier" Margin="5,0" x:Name="RemoveSupplierButton" Background="Transparent" BorderThickness="0">
+                    <Button Click="RemoveSupplierButton_Click" ToolTip="Remove Supplier" Margin="5,0" x:Name="RemoveSupplierButton" Background="Transparent" BorderThickness="0">
                         <Button.Content>
                             <Path Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 2.90253,17.13C 0.967529,15.105 0,12.7063 0,9.93381C 0,7.16129 0.96875,4.81253 2.90625,2.88751C 4.84375,0.962524 7.24377,3.05176e-005 10.1063,3.05176e-005C 12.9688,3.05176e-005 15.36,0.962524 17.28,2.88751C 19.2001,4.81253 20.16,7.16129 20.16,9.93381C 20.16,12.7063 19.2001,15.1038 17.28,17.1263C 15.36,19.1488 12.9688,20.16 10.1063,20.16C 7.24377,20.16 4.84253,19.1501 2.90253,17.13 Z M 3.84003,11.04L 16.32,11.04L 16.32,8.64005L 3.84003,8.64005L 3.84003,11.04 Z "/>
                         </Button.Content>
@@ -279,7 +279,7 @@
                 <TextBox x:Name="TbxSearchSupplier" Padding="5,0,0,0"
                          Margin="5,4" Grid.Row="1" FontSize="16"
                          VerticalContentAlignment="Center"
-                         Background="Transparent"
+                         Background="Transparent" GotFocus="TbxSearchSupplier_GotFocus" LostFocus="TbxSearchSupplier_LostFocus"
                          Text="{Binding Path=SupplierSearchText,
                                         UpdateSourceTrigger=PropertyChanged,
                                         Delay=100}" />
@@ -331,11 +331,11 @@
                         </Grid.RowDefinitions>
                         <TextBlock Text="Supplier Name: " FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
                         <TextBlock Text="Supplier Address: " Grid.Row="1" FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
-                        <TextBlock Text="Additional Details: " Grid.Row="2" FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Additional Details: " TextWrapping="Wrap" Grid.Row="2" FontSize="15" Margin="5" FontWeight="Medium" HorizontalAlignment="Right"/>
 
                         <TextBlock Text="{Binding Path=SupplierName}" FontSize="15"  Grid.Column="1" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
                         <TextBlock Text="{Binding Path=SupplierAddress}" FontSize="15" Grid.Row="1"  Grid.Column="1" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding Path=AdditionalDetails}" Grid.Row="2"  Grid.Column="1" FontSize="15" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding Path=SupplierDetails}" Grid.Row="2"  Grid.Column="1" FontSize="15" Margin="5" FontWeight="Normal" HorizontalAlignment="Left"/>
 
                         
                     </Grid>
@@ -397,7 +397,7 @@
                         <Grid Grid.Column="1"  x:Name="helperField8"/>
                         <Grid Grid.Column="2"  x:Name="helperField9"/>
                     </Grid>
-                    <ListView x:Name="SupplierProductsListView" Margin="5" Grid.Row="2" ItemsSource="{Binding Path=SupplierList}" SelectedItem="{Binding Path=SelectedSupplier}" TextElement.FontSize="16" TextElement.Foreground="Black">
+                    <ListView x:Name="SupplierProductsListView" Margin="5" Grid.Row="2" TextElement.FontSize="16" TextElement.Foreground="Black">
                         <ListView.View>
                             <GridView>
                                 <GridView.ColumnHeaderContainerStyle>

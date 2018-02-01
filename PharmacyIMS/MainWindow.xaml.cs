@@ -37,7 +37,6 @@ namespace PharmacyIMS
             DispatcherTimer timer = new DispatcherTimer();
             timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
-                //this.TxtBlkClock.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy hh:mm:ss");
                 this.TxtBlkClock.Text = DateTime.Now.ToString("hh:mm:ss tt");
                 this.TxtBlkDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
             }, this.Dispatcher);
@@ -45,8 +44,27 @@ namespace PharmacyIMS
             ProductTabButton.Foreground = Brushes.Black;
             this.SourceInitialized += Window1_SourceInitialized;
             UpdateProducts();
+            UpdateSuppliers();
+            DeliveryTabButton.Visibility = Visibility.Hidden;
+            TransactionTabButton.Visibility = Visibility.Hidden;
         }
-        
+        private void InitializeTabs()
+        {
+            ProductTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+            ProductTabButton.Foreground = Brushes.White;
+            SupplierTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+            SupplierTabButton.Foreground = Brushes.White;
+            DeliveryTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+            DeliveryTabButton.Foreground = Brushes.White;
+            TransactionTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+            TransactionTabButton.Foreground = Brushes.White;
+            productTabPressed = false;
+            supplierTabPressed = false;
+            deliveryTabPressed = false;
+            transactionTabPressed = false;
+            SupplierGrid.Visibility = Visibility.Hidden;
+            ProductGrid.Visibility = Visibility.Hidden;
+        }
 
         #region WindowResizeDisable
         private void Window1_SourceInitialized(object sender, EventArgs e)
@@ -82,10 +100,10 @@ namespace PharmacyIMS
         private void UpdateProducts()
         {
             SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
-            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [PRODUCT]", con);
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * From [PRODUCT]", con);
             DataTable dt = new DataTable();
-            sda2.Fill(dt);
-            con.Close();
+            sda1.Fill(dt);
+            con.Open();
 
             ViewModels.ViewModelLocator.MainWindowViewModel.ProductList.Clear();
             for (int x = 0; x < dt.Rows.Count; x++)
@@ -130,13 +148,18 @@ namespace PharmacyIMS
             ViewModels.ViewModelLocator.MainWindowViewModel.EditProduct();
             UpdateProducts();
         }
-
+        private void RemoveProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveProduct();
+            UpdateProducts();
+        }
         private void ProductTabButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
             InitializeTabs();
             ProductTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
             ProductTabButton.Foreground = Brushes.Black;
             productTabPressed = true;
+            ProductGrid.Visibility = Visibility.Visible;
         }
 
         private void ProductTabButton_MouseLeave(object sender, MouseEventArgs e)
@@ -153,30 +176,83 @@ namespace PharmacyIMS
             }
         }
         #endregion
-        private void InitializeTabs()
-        {
-            ProductTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
-            ProductTabButton.Foreground = Brushes.White;
-            SupplierTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
-            SupplierTabButton.Foreground = Brushes.White;
-            DeliveryTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
-            DeliveryTabButton.Foreground = Brushes.White;
-            TransactionTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
-            TransactionTabButton.Foreground = Brushes.White;
-            productTabPressed = false;
-            supplierTabPressed = false;
-            deliveryTabPressed = false;
-            transactionTabPressed = false;
-        }
 
+        #region Supplier Tab Grid
+        private void UpdateSuppliers()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [SUPPLIER]", con);
+            DataTable dt = new DataTable();
+            sda2.Fill(dt);
+            con.Open();
+
+            ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList.Clear();
+            for (int x = 0; x < dt.Rows.Count; x++)
+            {
+                Classes.SUPPLIER newSupplier = new Classes.SUPPLIER();
+
+                newSupplier.ID = Convert.ToInt16(dt.Rows[x]["ID"]);
+                newSupplier.SupplierName = dt.Rows[x]["SupplierName"].ToString();
+                newSupplier.SupplierAddress = dt.Rows[x]["SupplierAddress"].ToString();
+                newSupplier.SupplierDetails = dt.Rows[x]["SupplierDetails"].ToString();
+                ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList.Add(newSupplier);
+            }
+            con.Close();
+        }
         private void AddSupplierButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModels.ViewModelLocator.MainWindowViewModel.AddSupplier();
+            UpdateSuppliers();
         }
 
         private void EditSupplierButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModels.ViewModelLocator.MainWindowViewModel.EditSupplier();
+            UpdateSuppliers();
         }
+        private void RemoveSupplierButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveSupplier();
+            UpdateSuppliers();
+        }
+        private void SupplierTabButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            InitializeTabs();
+            SupplierTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+            SupplierTabButton.Foreground = Brushes.Black;
+            supplierTabPressed = true;
+            SupplierGrid.Visibility = Visibility.Visible;
+        }
+
+        private void SupplierTabButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (supplierTabPressed != true)
+            {
+                SupplierTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+                SupplierTabButton.Foreground = Brushes.White;
+            }
+            else
+            {
+                SupplierTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+                SupplierTabButton.Foreground = Brushes.Black;
+            }
+        }
+        private void TbxSearchSupplier_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TblSearchSupplier.Visibility = Visibility.Hidden;
+            TbxSearchSupplier.Background = Brushes.White;
+        }
+
+        private void TbxSearchSupplier_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (TbxSearchSupplier.Text == "")
+            {
+                TblSearchSupplier.Visibility = Visibility.Visible;
+                TbxSearchSupplier.Background = Brushes.Transparent;
+            }
+        }
+        #endregion
+
+       
     }
 }

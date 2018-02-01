@@ -1,0 +1,38 @@
+﻿<Window x:Class="PharmacyIMS.Windows.EditSupplierWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PharmacyIMS.Windows"
+        mc:Ignorable="d"
+        Title="EditSupplierWindow" Height="300" Width="300">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition 
+                Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" Text="Supplier Name:"/>
+        <TextBlock VerticalAlignment="Center" Text="Supplier Address:" Grid.Row="1"/>
+        <TextBlock VerticalAlignment="Center" Text="Supplier Details:" Grid.Row="3"/>
+
+        <TextBox x:Name="SupplierNameTbx" Text="{Binding Path=SupplierName}" Grid.Column="1" Margin="5" />
+        <TextBox x:Name="SupplierAddressTbx" Text="{Binding Path=SupplierAddress}" Grid.Column="1" TextWrapping="Wrap" Grid.RowSpan="2" Margin="5" Grid.Row="1"/>
+        <TextBox x:Name="SupplierDetailsTbx" Text="{Binding Path=SupplierDetails}" Grid.RowSpan="4" TextWrapping="Wrap" Grid.Column="1" Margin="5" Grid.Row="3"/>
+
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Click="EditSupplierBtn_Click" x:Name="EditSupplierBtn" Content="Edit" Margin="5" Width="100"/>
+            <Button Click="CancelSupplierBtn_Click" x:Name="CancelSupplierBtn" Content="Cancel" Margin="5" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

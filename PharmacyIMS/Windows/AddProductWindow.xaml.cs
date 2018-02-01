@@ -31,9 +31,8 @@ namespace PharmacyIMS.Windows
             int num3;
             if (decimal.TryParse(SellingPriceTbx.Text, out num1) == true && decimal.TryParse(BuyingPriceTbx.Text, out num2) == true && int.TryParse(QuantityTbx.Text, out num3) == true)
             {
-                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
+                SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
                 con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter();
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand("INSERT INTO [PRODUCT] (ProductName, GenericName, Type, Form, SellingPrice, BuyingPrice, Quantity) VALUES (@ProductName, @GenericName, @Type, @Form, @SellingPrice, @BuyingPrice, @Quantity)", con);
                 command.Parameters.AddWithValue("@ProductName", ProductNameTbx.Text);
