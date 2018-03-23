@@ -70,23 +70,46 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\DELIVERY.cs" />
+    <Compile Include="Classes\ORDER.cs" />
     <Compile Include="Classes\PRODUCT.cs" />
     <Compile Include="Classes\SUPPLIER.cs" />
+    <Compile Include="Classes\USER.cs" />
+    <Compile Include="CustomWindow.cs" />
     <Compile Include="Database\DatabaseLocator.cs" />
     <Compile Include="Database\GenerateConnection.cs" />
+    <Compile Include="ViewModels\LogInWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Windows\AddNewDeliveryWindow.xaml.cs">
+      <DependentUpon>AddNewDeliveryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddNewOrderToDeliveryWindow.xaml.cs">
+      <DependentUpon>AddNewOrderToDeliveryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddProductToSupplierWindow.xaml.cs">
+      <DependentUpon>AddProductToSupplierWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddProductWindow.xaml.cs">
       <DependentUpon>AddProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AddSupplierWindow.xaml.cs">
       <DependentUpon>AddSupplierWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AddUserWindow.xaml.cs">
+      <DependentUpon>AddUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EditProductWindow.xaml.cs">
       <DependentUpon>EditProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\EditSupplierWindow.xaml.cs">
       <DependentUpon>EditSupplierWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditUserWindow.xaml.cs">
+      <DependentUpon>EditUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LogInWindow.xaml.cs">
+      <DependentUpon>LogInWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +123,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\AddNewDeliveryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddNewOrderToDeliveryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddProductToSupplierWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AddProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,11 +143,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AddUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\EditProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EditSupplierWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LogInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,6 +199,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DatabaseTest.mdf</DependentUpon>
     </Content>
+    <Resource Include="Images\caduceus-medical-symbol.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

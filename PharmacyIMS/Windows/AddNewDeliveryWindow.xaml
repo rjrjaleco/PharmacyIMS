@@ -1,0 +1,42 @@
+﻿<Window x:Class="PharmacyIMS.Windows.AddNewDeliveryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PharmacyIMS.Windows"
+        mc:Ignorable="d" Background="#0066FF"
+        Title="Add a New Delivery" Height="300" Width="300">
+    <Grid Margin="5">
+        <Grid Grid.Column="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition 
+                Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Supplier:"/>
+            <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Order Date:" Grid.Row="1"/>
+            <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Arrival Date:" Grid.Row="2"/>
+            <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Driver Name:" Grid.Row="3"/>
+
+            <ComboBox FontSize="13" x:Name="SupplierCmb" SelectedItem="{Binding Path=SupplierDelivery}" ItemsSource="{Binding Path=SupplierList}" DisplayMemberPath="SupplierName" Grid.Column="1" Margin="5" />
+            <DatePicker x:Name="OrderDateDtp" SelectedDate="{Binding Path=OrderDate}" Grid.Column="1" Margin="5" Grid.Row="1" IsEnabled="False"/>
+            <DatePicker x:Name="ArrivalDateDtp" SelectedDate="{Binding Path=ArrivalDate}" Grid.Column="1" Margin="5" Grid.Row="2"/>
+            <TextBox FontSize="13" x:Name="DriverTbx" Text="{Binding Path=DriverName}" Grid.Column="1" Margin="5" Grid.Row="3"/>
+
+            <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button FontSize="13" BorderThickness="0" x:Name="AddDeliveryBtn" Click="AddDeliveryBtn_Click"  Content="Add Delivery" Margin="5" Width="100"/>
+                <Button FontSize="13" BorderThickness="0" x:Name="CancelDeliveryBtn" Click="CancelDeliveryBtn_Click" Content="Cancel Delivery" Margin="5" Width="100"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

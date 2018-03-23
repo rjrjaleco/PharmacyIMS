@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PharmacyIMS.Windows"
         mc:Ignorable="d"
-        Title="Edit Product" Height="300" Width="300">
+        Title="Edit Product" Height="300" Width="300" Background="#0066FF">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition 
@@ -22,25 +22,25 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock VerticalAlignment="Center" Text="Product Name:"/>
-        <TextBlock VerticalAlignment="Center" Text="Generic Name:" Grid.Row="1"/>
-        <TextBlock VerticalAlignment="Center" Text="Type:" Grid.Row="2"/>
-        <TextBlock VerticalAlignment="Center" Text="Form:" Grid.Row="3"/>
-        <TextBlock VerticalAlignment="Center" Text="Buying Price:" Grid.Row="4"/>
-        <TextBlock VerticalAlignment="Center" Text="Selling Price:" Grid.Row="5"/>
-        <TextBlock VerticalAlignment="Center" Text="Quantity:" Grid.Row="6"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Product Name:"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Generic Name:" Grid.Row="1"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Type:" Grid.Row="2"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Form:" Grid.Row="3"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Buying Price:" Grid.Row="4"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Selling Price:" Grid.Row="5"/>
+        <TextBlock FontSize="13" Foreground="White" VerticalAlignment="Center" Text="Quantity:" Grid.Row="6"/>
 
-        <TextBox x:Name="ProductNameTbx" Text="{Binding Path=ProductName}" Grid.Column="1" Margin="5" />
-        <TextBox x:Name="GenericNameTbx" Text="{Binding Path=GenericName}" Grid.Column="1" Margin="5" Grid.Row="1"/>
-        <TextBox x:Name="TypeTbx" Text="{Binding Path=Type}" Grid.Column="1" Margin="5" Grid.Row="2"/>
-        <TextBox x:Name="FormTbx" Text="{Binding Path=Form}" Grid.Column="1" Margin="5" Grid.Row="3"/>
-        <TextBox x:Name="BuyingPriceTbx" Text="{Binding Path=BuyingPrice}" Grid.Column="1" Margin="5" Grid.Row="4"/>
-        <TextBox x:Name="SellingPriceTbx" Text="{Binding Path=SellingPrice}" Grid.Column="1" Margin="5" Grid.Row="5"/>
-        <TextBox x:Name="QuantityTbx" Text="{Binding Path=Quantity}" Grid.Column="1" Margin="5" Grid.Row="6"/>
+        <TextBox FontSize="13" x:Name="ProductNameTbx" Text="{Binding Path=ProductName}" Grid.Column="1" Margin="5" />
+        <TextBox FontSize="13" x:Name="GenericNameTbx" Text="{Binding Path=GenericName}" Grid.Column="1" Margin="5" Grid.Row="1"/>
+        <TextBox FontSize="13" x:Name="TypeTbx" Text="{Binding Path=Type}" Grid.Column="1" Margin="5" Grid.Row="2"/>
+        <TextBox FontSize="13" x:Name="FormTbx" Text="{Binding Path=Form}" Grid.Column="1" Margin="5" Grid.Row="3"/>
+        <TextBox FontSize="13" x:Name="BuyingPriceTbx" Text="{Binding Path=BuyingPrice}" Grid.Column="1" Margin="5" Grid.Row="4"/>
+        <TextBox FontSize="13" x:Name="SellingPriceTbx" Text="{Binding Path=SellingPrice}" Grid.Column="1" Margin="5" Grid.Row="5"/>
+        <TextBox FontSize="13" x:Name="QuantityTbx" Text="{Binding Path=Quantity}" Grid.Column="1" Margin="5" Grid.Row="6"/>
 
         <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="EditProductBtn" Click="EditProductBtn_Click"  Content="Save" Margin="5" Width="100"/>
-            <Button x:Name="CancelProductBtn" Click="CancelProductBtn_Click"  Content="Cancel" Margin="5" Width="100"/>
+            <Button FontSize="13" BorderThickness="0" x:Name="EditProductBtn" Click="EditProductBtn_Click"  Content="Save" Margin="5" Width="100"/>
+            <Button FontSize="13" BorderThickness="0" x:Name="CancelProductBtn" Click="CancelProductBtn_Click"  Content="Cancel" Margin="5" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

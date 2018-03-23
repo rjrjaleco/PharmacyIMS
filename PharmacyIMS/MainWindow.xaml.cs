@@ -22,12 +22,16 @@ namespace PharmacyIMS
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    
+    public partial class MainWindow : CustomWindow
     {
+        
         bool productTabPressed = false;
         bool supplierTabPressed = false;
         bool deliveryTabPressed = false;
         bool transactionTabPressed = false;
+        bool userTabPressed = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,9 +47,8 @@ namespace PharmacyIMS
             ProductTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
             ProductTabButton.Foreground = Brushes.Black;
             this.SourceInitialized += Window1_SourceInitialized;
-            UpdateProducts();
-            UpdateSuppliers();
-            DeliveryTabButton.Visibility = Visibility.Hidden;
+            Updater();
+            
             TransactionTabButton.Visibility = Visibility.Hidden;
         }
         private void InitializeTabs()
@@ -58,12 +61,17 @@ namespace PharmacyIMS
             DeliveryTabButton.Foreground = Brushes.White;
             TransactionTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
             TransactionTabButton.Foreground = Brushes.White;
+            UserTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+            UserTab.Foreground = Brushes.White;
             productTabPressed = false;
             supplierTabPressed = false;
             deliveryTabPressed = false;
             transactionTabPressed = false;
+            userTabPressed = false;
             SupplierGrid.Visibility = Visibility.Hidden;
             ProductGrid.Visibility = Visibility.Hidden;
+            UserGrid.Visibility = Visibility.Hidden;
+            DeliveryGrid.Visibility = Visibility.Hidden;
         }
 
         #region WindowResizeDisable
@@ -95,11 +103,20 @@ namespace PharmacyIMS
             return IntPtr.Zero;
         }
         #endregion
-
+        private void Updater()
+        {
+            UpdateProducts();
+            UpdateSuppliers();
+            UpdateSupplierProducts();
+            UpdateDelivery();
+            UpdateOrders();
+            UpdateDeliveryOrders();
+            UpdateUsers();
+        }
         #region Product Tab Grid
         private void UpdateProducts()
         {
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
             SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * From [PRODUCT]", con);
             DataTable dt = new DataTable();
             sda1.Fill(dt);
@@ -140,18 +157,18 @@ namespace PharmacyIMS
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.AddProduct();
-            UpdateProducts();
+            Updater();
         }
 
         private void EditProductButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.EditProduct();
-            UpdateProducts();
+            Updater();
         }
         private void RemoveProductButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.RemoveProduct();
-            UpdateProducts();
+            Updater();
         }
         private void ProductTabButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -175,12 +192,17 @@ namespace PharmacyIMS
                 ProductTabButton.Foreground = Brushes.Black;
             }
         }
+        private void ClearProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearProducts();
+            Updater();
+        }
         #endregion
 
         #region Supplier Tab Grid
         private void UpdateSuppliers()
         {
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
             SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [SUPPLIER]", con);
             DataTable dt = new DataTable();
             sda2.Fill(dt);
@@ -202,18 +224,18 @@ namespace PharmacyIMS
         private void AddSupplierButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.AddSupplier();
-            UpdateSuppliers();
+            Updater();
         }
 
         private void EditSupplierButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.EditSupplier();
-            UpdateSuppliers();
+            Updater();
         }
         private void RemoveSupplierButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModels.ViewModelLocator.MainWindowViewModel.RemoveSupplier();
-            UpdateSuppliers();
+            Updater();
         }
         private void SupplierTabButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -251,8 +273,386 @@ namespace PharmacyIMS
                 TbxSearchSupplier.Background = Brushes.Transparent;
             }
         }
+
+        #endregion
+        #region Supplier Products
+        private void AddSupplierProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.AddProductToSupplier();
+            Updater();
+        }
+        private void UpdateSupplierProducts()
+        {
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * From [SUPPLIER_PRODUCT]", con);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [SUPPLIER]", con);
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            SqlDataAdapter sda3 = new SqlDataAdapter("SELECT * From [PRODUCT]", con);
+            DataTable dt3 = new DataTable();
+            sda3.Fill(dt3);
+            con.Open();
+            
+            for (int a = 0; a<ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList.Count; a++)
+            {
+                var holderSupplier = ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList[a] as Classes.SUPPLIER;
+                holderSupplier.SupplierProductList.Clear();
+            }
+            for (int x = 0; x < dt1.Rows.Count; x++)
+            {
+                for(int y =0; y <ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList.Count; y++)
+                {
+                    var holderSupplier = ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList[y] as Classes.SUPPLIER;
+                    if (dt1.Rows[x]["SupplierID"].ToString() == holderSupplier.ID.ToString())
+                    {
+                        for (int z = 0; z < ViewModels.ViewModelLocator.MainWindowViewModel.ProductList.Count; z++)
+                        {
+                            var holderProduct = ViewModels.ViewModelLocator.MainWindowViewModel.ProductList[z] as Classes.PRODUCT;
+                            if (dt1.Rows[x]["ProductID"].ToString() == holderProduct.ID.ToString())
+                            {
+                                holderSupplier.SupplierProductList.Add(holderProduct);
+                            }
+                        }
+                    }
+                }
+            }
+            con.Close();
+        }
+
+        private void RemoveSupplierProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveSupplierProduct();
+            Updater();
+        }
+
+        private void ClearSupplierButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearSuppliers();
+            Updater();
+        }
+
+        private void ClearSupplierProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearSupplierProduct();
+            Updater();
+        }
+
+
+        private void TbxSearchSupplierProduct_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TblSearchSupplierProduct.Visibility = Visibility.Hidden;
+            TbxSearchSupplierProduct.Background = Brushes.White;
+        }
+
+        private void TbxSearchSupplierProduct_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (TbxSearchSupplierProduct.Text == "")
+            {
+                TblSearchSupplierProduct.Visibility = Visibility.Visible;
+                TbxSearchSupplierProduct.Background = Brushes.Transparent;
+            }
+        }
         #endregion
 
-       
+        #region User Tab Grid
+        private void UserTab_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            UserTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+            UserTab.Foreground = Brushes.Black;
+            (sender as TextBlock).ContextMenu.IsEnabled = true;
+            (sender as TextBlock).ContextMenu.PlacementTarget = (sender as TextBlock);
+            (sender as TextBlock).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            (sender as TextBlock).ContextMenu.IsOpen = true;
+            
+        }
+        private void EditUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.EditUser();
+            Updater();
+        }
+        private void LogOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TbxSearchDelivery.Text = "";
+            TbxSearchDeliveryOrder.Text = "";
+            TbxSearchProduct.Text = "";
+            TbxSearchSupplier.Text = "";
+            TbxSearchSupplierProduct.Text = "";
+            this.Owner.Show();
+            this.Close();
+        }
+
+        private void TbxSearchUser_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TblSearchUser.Visibility = Visibility.Hidden;
+            TbxSearchUser.Background = Brushes.White;
+        }
+
+        private void TbxSearchUser_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (TbxSearchUser.Text == "")
+            {
+                TblSearchUser.Visibility = Visibility.Visible;
+                TbxSearchUser.Background = Brushes.Transparent;
+            }
+        }
+        private void UpdateUsers()
+        {
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * From [USER]", con);
+            DataTable dt = new DataTable();
+            sda1.Fill(dt);
+            ViewModels.ViewModelLocator.LogInWindowViewModel.UserList.Clear();
+            for (int x = 0; x < dt.Rows.Count; x++)
+            {
+                Classes.USER newUser = new Classes.USER();
+
+                newUser.ID = Convert.ToInt16(dt.Rows[x]["ID"]);
+                newUser.Username = dt.Rows[x]["Username"].ToString();
+                newUser.Password = dt.Rows[x]["Password"].ToString();
+                newUser.Level = dt.Rows[x]["Level"].ToString();
+                ViewModels.ViewModelLocator.LogInWindowViewModel.UserList.Add(newUser);
+            }
+            con.Close();
+        }
+        private void AddUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.AddUser();
+            Updater();
+        }
+
+        private void RemoveUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveUser();
+            Updater();
+        }
+
+        private void ClearUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearUsers();
+            Updater();
+        }
+
+        private void OpenUserTabBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeTabs();
+            UserTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+            UserTab.Foreground = Brushes.Black;
+            userTabPressed = true;
+            UserGrid.Visibility = Visibility.Visible;
+        }
+
+        private void UserTab_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (userTabPressed != true)
+            {
+                UserTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+                UserTab.Foreground = Brushes.White;
+            }
+            else
+            {
+                UserTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+                UserTab.Foreground = Brushes.Black;
+            }
+        }
+        #endregion
+
+        #region DELIVERY
+        private void UpdateDelivery()
+        {
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [DELIVERY]", con);
+            DataTable dt = new DataTable();
+            sda2.Fill(dt);
+            con.Open();
+
+            ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList.Clear();
+            for (int x = 0; x < dt.Rows.Count; x++)
+            {
+                Classes.DELIVERY newDelivery = new Classes.DELIVERY();
+
+                newDelivery.ID = Convert.ToInt16(dt.Rows[x]["ID"]);
+                newDelivery.OrderDate = Convert.ToDateTime(dt.Rows[x]["OrderDate"]);
+                newDelivery.ArrivalDate = Convert.ToDateTime(dt.Rows[x]["ArrivalDate"]);
+                newDelivery.DriverName = dt.Rows[x]["DriverName"].ToString();
+                for(int y = 0; y < ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList.Count; y++)
+                {
+                    var holderSupplier = ViewModels.ViewModelLocator.MainWindowViewModel.SupplierList[y] as Classes.SUPPLIER;
+                    if (holderSupplier.ID == Convert.ToInt16(dt.Rows[x]["SupplierID"]))
+                        newDelivery.SupplierDelivery = holderSupplier;
+                }
+                ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList.Add(newDelivery);
+            }
+            con.Close();
+        }
+        private void UpdateOrders()
+        {
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [ORDER]", con);
+            DataTable dt = new DataTable();
+            sda2.Fill(dt);
+            con.Open();
+
+            ViewModels.ViewModelLocator.MainWindowViewModel.OrderList.Clear();
+            for (int x = 0; x < dt.Rows.Count; x++)
+            {
+                Classes.ORDER newOrder = new Classes.ORDER();
+
+                newOrder.ID = Convert.ToInt16(dt.Rows[x]["ID"]);
+                newOrder.Quantity = Convert.ToInt16(dt.Rows[x]["Quantity"]);
+                for (int y = 0; y < ViewModels.ViewModelLocator.MainWindowViewModel.ProductList.Count; y++)
+                {
+                    var holderProduct = ViewModels.ViewModelLocator.MainWindowViewModel.ProductList[y] as Classes.PRODUCT;
+                    if (holderProduct.ID == Convert.ToInt16(dt.Rows[x]["ProductID"]))
+                        newOrder.OrderProduct = holderProduct;
+                }
+                ViewModels.ViewModelLocator.MainWindowViewModel.OrderList.Add(newOrder);
+            }
+            con.Close();
+        }
+        private void UpdateDeliveryOrders()
+        {
+            SqlConnection con = Database.DatabaseLocator.GenerateConnection.GenerateNewConnection();
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT * From [DELIVERY_ORDER]", con);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT * From [DELIVERY]", con);
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            SqlDataAdapter sda3 = new SqlDataAdapter("SELECT * From [ORDER]", con);
+            DataTable dt3 = new DataTable();
+            sda3.Fill(dt3);
+            con.Open();
+
+            for (int a = 0; a < ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList.Count; a++)
+            {
+                var holderDelivery = ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList[a] as Classes.DELIVERY;
+                holderDelivery.DeliveryOrderList.Clear();
+            }
+            for (int x = 0; x < dt1.Rows.Count; x++)
+            {
+                for (int y = 0; y < ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList.Count; y++)
+                {
+                    var holderDelivery = ViewModels.ViewModelLocator.MainWindowViewModel.DeliveryList[y] as Classes.DELIVERY;
+                    if (dt1.Rows[x]["DeliveryID"].ToString() == holderDelivery.ID.ToString())
+                    {
+                        for (int z = 0; z < ViewModels.ViewModelLocator.MainWindowViewModel.OrderList.Count; z++)
+                        {
+                            var holderOrder = ViewModels.ViewModelLocator.MainWindowViewModel.OrderList[z] as Classes.ORDER;
+                            if (dt1.Rows[x]["OrderID"].ToString() == holderOrder.ID.ToString())
+                            {
+                                holderDelivery.DeliveryOrderList.Add(holderOrder);
+                            }
+                        }
+                    }
+                }
+            }
+            con.Close();
+        }
+        private void DeliveryTabButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            InitializeTabs();
+            DeliveryTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+            DeliveryTabButton.Foreground = Brushes.Black;
+            deliveryTabPressed = true;
+            DeliveryGrid.Visibility = Visibility.Visible;
+        }
+
+        private void DeliveryTabButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (deliveryTabPressed != true)
+            {
+                DeliveryTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0066FF"));
+                DeliveryTabButton.Foreground = Brushes.White;
+            }
+            else
+            {
+                DeliveryTabButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+                DeliveryTabButton.Foreground = Brushes.Black;
+            }
+        }
+        private void TbxSearchDelivery_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TblSearchDelivery.Visibility = Visibility.Hidden;
+            TbxSearchDelivery.Background = Brushes.White;
+        }
+
+        private void TbxSearchDelivery_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (TbxSearchDelivery.Text == "")
+            {
+                TblSearchDelivery.Visibility = Visibility.Visible;
+                TbxSearchDelivery.Background = Brushes.Transparent;
+            }
+        }
+
+        private void TbxSearchDeliveryOrder_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TblSearchDeliveryOrder.Visibility = Visibility.Hidden;
+            TbxSearchDeliveryOrder.Background = Brushes.White;
+        }
+
+        private void TbxSearchDeliveryOrder_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (TbxSearchDelivery.Text == "")
+            {
+                TblSearchDeliveryOrder.Visibility = Visibility.Visible;
+                TbxSearchDeliveryOrder.Background = Brushes.Transparent;
+            }
+        }
+
+        private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.AddDelivery();
+            Updater();
+        }
+
+        private void RemoveDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveDelivery();
+            Updater();
+        }
+
+        private void ClearDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearDeliveries();
+            Updater();
+        }
+
+        private void AddDeliveryOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.AddOrderToDelivery();
+            Updater();
+        }
+
+        private void RemoveDeliveryOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.RemoveDeliveryOrder();
+            Updater();
+        }
+
+        private void ClearDeliveryDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ClearDeliveryOrder();
+            Updater();
+        }
+
+        private void ConfirmArrivalDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModels.ViewModelLocator.MainWindowViewModel.ConfirmDelivery();
+            Updater();
+        }
+
+
+
+
+        #endregion
+
+
+        //private void SupplierProductsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+
+        //}
     }
 }

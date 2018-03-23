@@ -20,5 +20,17 @@ namespace PharmacyIMS.ViewModels
                 return _mainWindowViewModel;
             }
         }
+        private static LogInWindowViewModel _logInWindowViewModel;
+        public static LogInWindowViewModel LogInWindowViewModel
+        {
+            get
+            {
+                if (_logInWindowViewModel == null)
+                {
+                    _logInWindowViewModel = new LogInWindowViewModel();
+                }
+                return _logInWindowViewModel;
+            }
+        }
     }
 }

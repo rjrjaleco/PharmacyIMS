@@ -27,7 +27,7 @@ namespace PharmacyIMS.Database
         //}
         public SqlConnection GenerateNewConnection()
         {
-            var con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
+            var con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Rene John Jaleco\Desktop\PharmacyIMS\PharmacyIMS\Database\DatabaseTest.mdf");
             return con;
         }
     }

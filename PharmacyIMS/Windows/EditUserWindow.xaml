@@ -1,0 +1,41 @@
+﻿<Window x:Class="PharmacyIMS.Windows.EditUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PharmacyIMS.Windows"
+        mc:Ignorable="d"
+        Title="Change User Details" Height="200" Width="300" Background="#0066FF">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="13" Margin="5" Foreground="White" HorizontalAlignment="Right" Text="Username: " Grid.Row="0"/>
+            <TextBlock FontSize="13" Margin="5" Foreground="White" HorizontalAlignment="Right" Text="New Password: " Grid.Row="1"/>
+            <TextBlock FontSize="13" Margin="5" Foreground="White" HorizontalAlignment="Right" Text="Confirm Password: " Grid.Row="2"/>
+
+            <TextBox  FontSize="13" x:Name="UsernameTbx" Text="{Binding Path=Username}" Grid.Column="1" Grid.Row="0" Margin="5"/>
+            <PasswordBox FontSize="13" x:Name="PasswordTbx" Grid.Column="1" Grid.Row="1" Margin="5"/>
+            <PasswordBox FontSize="13" x:Name="PasswordConfirmTbx" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button BorderThickness="0" Click="SaveButton_Click" x:Name="SaveButton" Grid.Column="0" Margin="5,0" Content="Save Changes"/>
+            <Button BorderThickness="0" Click="CancelButton_Click" x:Name="CancelButton" Grid.Column="1" Margin="5,0" Content="Cancel"/>
+        </Grid>
+    </Grid>
+</Window>

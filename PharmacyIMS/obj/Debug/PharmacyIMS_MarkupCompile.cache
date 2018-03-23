@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\obj\Debug\
+C:\Users\Rene John Jaleco\Desktop\PharmacyIMS\PharmacyIMS\obj\Debug\
 PharmacyIMS
 none
 false
 DEBUG;TRACE
-C:\Users\rjrjaleco\documents\visual studio 2015\Projects\PharmacyIMS\PharmacyIMS\App.xaml
-5-1499206683
+C:\Users\Rene John Jaleco\Desktop\PharmacyIMS\PharmacyIMS\App.xaml
+11-1542094210
 2-1193109999
-15368162402
+261921388426
 13738642453
-MainWindow.xaml;Windows\AddProductWindow.xaml;Windows\AddSupplierWindow.xaml;Windows\EditProductWindow.xaml;Windows\EditSupplierWindow.xaml;
+MainWindow.xaml;Windows\AddNewDeliveryWindow.xaml;Windows\AddNewOrderToDeliveryWindow.xaml;Windows\AddProductToSupplierWindow.xaml;Windows\AddProductWindow.xaml;Windows\AddSupplierWindow.xaml;Windows\AddUserWindow.xaml;Windows\EditProductWindow.xaml;Windows\EditSupplierWindow.xaml;Windows\EditUserWindow.xaml;Windows\LogInWindow.xaml;
 
 False
 

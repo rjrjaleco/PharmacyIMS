@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace PharmacyIMS.Classes
 {
@@ -16,6 +17,8 @@ namespace PharmacyIMS.Classes
         private string _supplierDetails;
         #endregion
         #region Public Fields
+        ObservableCollection<Classes.PRODUCT> _supplierProductList = new ObservableCollection<Classes.PRODUCT>();
+        public ObservableCollection<Classes.PRODUCT> SupplierProductList { get { return _supplierProductList; } }
         public int ID
         {
             get
@@ -86,6 +89,7 @@ namespace PharmacyIMS.Classes
             SupplierName = suppliername;
             SupplierAddress = supplierAddress;
             SupplierDetails = supplierDetails;
+            _supplierProductList = new ObservableCollection<Classes.PRODUCT>();
         }
         #endregion
     }
